@@ -54,6 +54,5 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
 			p3 = node;
 		}
 	}
-	
 	return head;
 }

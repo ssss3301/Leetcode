@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <algorithm>
 using namespace std;
 
 string longestPalindrome_violence(string s) {
@@ -26,4 +27,35 @@ string longestPalindrome_violence(string s) {
 	}
 
 	return maxstr;
+}
+
+int palindrome_expand(string& s, int left, int right) {
+	int len = s.size();
+	while (left >= 0 && right < len && s[left] == s[right]) {
+		left--;
+		right++;
+	}
+	return right - left - 1;
+}
+
+string longestPalindrome_middleExpand(string s) {
+	int str_len = s.size();
+	int max_len = 0;
+	int max_start = 0;
+	int max_end = 0;
+	for (int i = 0; i < str_len; ++i) {
+		int palindrome_len1 = palindrome_expand(s, i, i);
+		int palindrome_len2 = palindrome_expand(s, i, i + 1);
+		int len = std::max(palindrome_len1, palindrome_len2);
+		if (len > max_len) {
+			max_len = len;
+			if (len % 2 == 0)
+				max_start = i - len / 2 + 1;
+			else
+				max_start = i - len / 2;
+			max_end = i + len / 2;
+		}
+	}
+
+	return s.substr(max_start, max_end - max_start + 1);
 }
